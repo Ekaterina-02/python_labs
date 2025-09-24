@@ -36,7 +36,7 @@ print(f'Итого к оплате: {total:.2f}')
 
 ```
 m=int(input('Введите минуты: '))
-print(f'{m//60}:{m%60:02d}')
+print(f'{(m//60)%24}:{m%60:02d}')
 ```
 
 ![04_minutes_to_hhmm](/images/Снимок%20экрана%202025-09-17%20173433.png)
@@ -44,9 +44,8 @@ print(f'{m//60}:{m%60:02d}')
 ### 5 номер
 
 ```
-fio=input('Введите ФИО: ')
-length=len(fio.strip())
-fio=fio.split()
+fio=input('Введите ФИО: ').split()
+length=len(fio[0] + fio[1] + fio[2]) + 2
 inicial=[fio[0][0].upper(),fio[1][0].upper(),fio[2][0].upper()]
 inicial=''.join(inicial)
 print(f'Инициалы: {inicial}.')
