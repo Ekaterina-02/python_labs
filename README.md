@@ -54,3 +54,131 @@ print(f'Длина (символов): {length}')
 
 ![05_initials_and_len.py](/images/lab01/Снимок%20экрана%202025-09-22%20112140.png)
 
+### 1-A номер
+
+```
+def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
+    if len(nums)==0:
+        return 'ValueError'
+    return(min(nums),max(nums))
+print(min_max([3, -1, 5, 5, 0]))
+print(min_max([42]))
+print(min_max([-5, -2, -9]))
+print(min_max([]))
+print(min_max([1.5, 2, 2.0, -3.1]))
+```
+
+![01-A_arrays.py](/images/lab02/Снимок%20экрана%202025-09-24%20155533.png)
+
+### 1-B номер
+
+```
+def unique_sorted(nums: list[float | int]) -> list[float | int]:
+    result=[]
+    m=-10*10
+    nums=sorted(nums)
+    for i in nums:
+        if i>m:
+            result.append(i)
+            m=i
+    return result
+print(unique_sorted([3, 1, 2, 1, 3]))
+print(unique_sorted([]))
+print(unique_sorted([-1, -1, 0, 2, 2]))
+print(unique_sorted([1.0, 1, 2.5, 2.5, 0]))
+```
+
+![01-B_arrays.py](/images/lab02/Снимок%20экрана%202025-09-29%20214002.png)
+
+### 1-C номер
+
+```
+def flatten(mat: list[list | tuple]) -> list:
+    for a in mat:
+        if not(isinstance(a,(list,tuple))):
+            return 'TypeError'
+    result=[]
+    for i in range(len(mat)):
+        for j in range(len(mat[i])):
+            result.append(mat[i][j])
+    return result
+print(flatten([[1, 2], [3, 4]]))
+print(flatten(([1, 2], (3, 4, 5))))
+print(flatten([[1], [], [2, 3]]))
+print(flatten([[1, 2], "ab"]))
+```
+
+![01-C_arrays.py](/images/lab02/Снимок%20экрана%202025-09-29%20214215.png)
+
+### 2-A номер
+
+```
+def transpose(mat: list[list[float | int]]) -> list[list]:
+    if len(mat)==0:
+            return []
+    for a in range(len(mat)):
+        if len(mat[a])!=len(mat[0]):
+            return 'ValueError'
+    strocs=len(mat)
+    colons=len(mat[0])
+    result=[]
+    for i in range(colons):
+        colons1=[0]*strocs
+        result.append(colons1)
+    for s in range(strocs):
+        for e in range(colons):
+            result[e][s]=mat[s][e]
+    return result
+print(transpose([[1, 2, 3]]))
+print(transpose([[1], [2], [3]]))
+print(transpose([[1, 2], [3, 4]]))
+print(transpose([]))
+print(transpose([[1, 2], [3]]))
+```
+
+![02-A_matrix.py](/images/lab02/Снимок%20экрана%202025-09-29%20214531.png)
+
+### 2-B номер
+
+```
+def row_sums(mat: list[list[float | int]]) -> list[float]:
+    if len(mat)==0:
+            return []
+    for a in range(len(mat)):
+        if len(mat[a])!=len(mat[0]):
+            return 'ValueError'
+    sums=[]
+    for i in range(len(mat)):
+        sums.append(sum(mat[i]))
+    return sums
+print(row_sums([[1, 2, 3], [4, 5, 6]]))
+print(row_sums([[-1, 1], [10, -10]]))
+print(row_sums([[0, 0], [0, 0]]))
+print(row_sums([[1, 2], [3]]))
+```
+
+![02-B_matrix.py](/images/lab02/Снимок%20экрана%202025-09-29%20214820.png)
+
+### 2-C номер
+
+```
+def col_sums(mat: list[list[float | int]]) -> list[float]:
+    if len(mat)==0:
+            return []
+    for a in range(len(mat)):
+        if len(mat[a])!=len(mat[0]):
+            return 'ValueError'
+    sums=[]
+    for j in range(len(mat[0])):
+        s=0
+        for i in range(len(mat)):
+            s=s+mat[i][j]
+        sums.append(s)
+    return sums
+print(col_sums([[1, 2, 3], [4, 5, 6]]))
+print(col_sums([[-1, 1], [10, -10]]))
+print(col_sums([[0, 0], [0, 0]]))
+print(col_sums([[1, 2], [3]]))
+```
+
+![02-C_matrix.py](/images/lab02/Снимок%20экрана%202025-09-29%20215014.png)
