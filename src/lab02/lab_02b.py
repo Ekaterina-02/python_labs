@@ -3,7 +3,7 @@ def row_sums(mat: list[list[float | int]]) -> list[float]:
             return []
     for a in range(len(mat)):
         if len(mat[a])!=len(mat[0]):
-            return 'ValueError'
+            return ValueError
     sums=[]
     for i in range(len(mat)):
         sums.append(sum(mat[i]))

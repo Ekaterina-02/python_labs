@@ -3,7 +3,7 @@ def col_sums(mat: list[list[float | int]]) -> list[float]:
             return []
     for a in range(len(mat)):
         if len(mat[a])!=len(mat[0]):
-            return 'ValueError'
+            return ValueError
     sums=[]
     for j in range(len(mat[0])):
         s=0

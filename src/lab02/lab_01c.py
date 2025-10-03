@@ -1,7 +1,7 @@
 def flatten(mat: list[list | tuple]) -> list:
     for a in mat:
         if not(isinstance(a,(list,tuple))):
-            return 'TypeError'
+            return TypeError
     result=[]
     for i in range(len(mat)):
         for j in range(len(mat[i])):

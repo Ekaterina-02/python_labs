@@ -164,7 +164,7 @@ print(row_sums([[1, 2], [3]]))
 
 ### 2-C номер
 
-```
+``` python
 def col_sums(mat: list[list[float | int]]) -> list[float]:
     if len(mat)==0:
             return []
@@ -199,7 +199,7 @@ def format_record(rec: tuple[str, str, float]) -> str:
     gpa=f'{gpa_new:.2f}'
     fio1=''
     f=0
-    
+
     for i in range(len(fio)):
         if fio[i]!='' and f==0:
             first=fio[i][0].upper()

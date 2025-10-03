@@ -3,7 +3,7 @@ def transpose(mat: list[list[float | int]]) -> list[list]:
             return []
     for a in range(len(mat)):
         if len(mat[a])!=len(mat[0]):
-            return 'ValueError'
+            return ValueError
     strocs=len(mat)
     colons=len(mat[0])
     result=[]

@@ -1,10 +1,13 @@
 def format_record(rec: tuple[str, str, float]) -> str:
-    for i in rec:
-        if str(i)=='':
-            return 'ValueError'
-    fio=str(rec[0]).split()
-    group=str(rec[1])
-    gpa_new=float(rec[2])
+    if len(rec)!=3:
+        return ValueError
+    if type(rec[0])!=str or type(rec[1])!=str:
+        return ValueError
+    if type(rec[2])!=float:
+        return ValueError
+    fio=rec[0].split()
+    group=rec[1]
+    gpa_new=rec[2]
     gpa=f'{gpa_new:.2f}'
     fio1=''
     f=0
