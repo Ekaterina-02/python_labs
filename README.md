@@ -62,7 +62,7 @@ print(f'Длина (символов): {length}')
 ```
 def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
     if len(nums)==0:
-        return 'ValueError'
+        return ValueError
     return(min(nums),max(nums))
 print(min_max([3, -1, 5, 5, 0]))
 print(min_max([42]))
@@ -99,7 +99,7 @@ print(unique_sorted([1.0, 1, 2.5, 2.5, 0]))
 def flatten(mat: list[list | tuple]) -> list:
     for a in mat:
         if not(isinstance(a,(list,tuple))):
-            return 'TypeError'
+            return TypeError
     result=[]
     for i in range(len(mat)):
         for j in range(len(mat[i])):
@@ -149,7 +149,7 @@ def row_sums(mat: list[list[float | int]]) -> list[float]:
             return []
     for a in range(len(mat)):
         if len(mat[a])!=len(mat[0]):
-            return 'ValueError'
+            return ValueError
     sums=[]
     for i in range(len(mat)):
         sums.append(sum(mat[i]))
@@ -170,7 +170,7 @@ def col_sums(mat: list[list[float | int]]) -> list[float]:
             return []
     for a in range(len(mat)):
         if len(mat[a])!=len(mat[0]):
-            return 'ValueError'
+            return ValueError
     sums=[]
     for j in range(len(mat[0])):
         s=0
