@@ -1,7 +1,7 @@
 ### Лабораторная работа № 1
 ### 1 номер
 
-```
+```python
 name=input('Введите имя: ')
 age=int(input('Введите возраст: '))
 print(f'Привет, {name}! Через год тебе будет {age+1}.')
@@ -11,7 +11,7 @@ print(f'Привет, {name}! Через год тебе будет {age+1}.')
 
 ### 2 номер
 
-```
+```python
 a=float(input('Введите число: ').replace(',','.'))
 b=float(input('Введите число: ').replace(',','.'))
 print(f'sum={a+b}; avg={(a+b)/2:.2f}')
@@ -21,7 +21,7 @@ print(f'sum={a+b}; avg={(a+b)/2:.2f}')
 
 ### 3 номер
 
-```
+```python
 price, discount, vat=map(float,input('Введите цену, скидку, НДС: ').split())
 base=price*(1-discount/100)
 vat_amount=base*(vat/100)
@@ -35,7 +35,7 @@ print(f'Итого к оплате: {total:.2f}')
 
 ### 4 номер
 
-```
+```python
 m=int(input('Введите минуты: '))
 print(f'{(m//60)%24}:{m%60:02d}')
 ```
@@ -44,7 +44,7 @@ print(f'{(m//60)%24}:{m%60:02d}')
 
 ### 5 номер
 
-```
+```python
 fio=input('Введите ФИО: ').split()
 length=len(fio[0] + fio[1] + fio[2]) + 2
 inicial=[fio[0][0].upper(),fio[1][0].upper(),fio[2][0].upper()]
@@ -56,10 +56,11 @@ print(f'Длина (символов): {length}')
 ![05_initials_and_len.py](/images/lab01/Снимок%20экрана%202025-09-22%20112140.png)
 
 
+
 ### Лабораторная работа № 2
 ### 1-A номер
 
-```
+```python
 def min_max(nums: list[float | int]) -> tuple[float | int, float | int]:
     if len(nums)==0:
         return ValueError
@@ -75,7 +76,7 @@ print(min_max([1.5, 2, 2.0, -3.1]))
 
 ### 1-B номер
 
-```
+```python
 def unique_sorted(nums: list[float | int]) -> list[float | int]:
     result=[]
     m=-10*10
@@ -95,7 +96,7 @@ print(unique_sorted([1.0, 1, 2.5, 2.5, 0]))
 
 ### 1-C номер
 
-```
+```python
 def flatten(mat: list[list | tuple]) -> list:
     for a in mat:
         if not(isinstance(a,(list,tuple))):
@@ -115,7 +116,7 @@ print(flatten([[1, 2], "ab"]))
 
 ### 2-A номер
 
-```
+```python
 def transpose(mat: list[list[float | int]]) -> list[list]:
     if len(mat)==0:
             return []
@@ -143,7 +144,7 @@ print(transpose([[1, 2], [3]]))
 
 ### 2-B номер
 
-```
+```python
 def row_sums(mat: list[list[float | int]]) -> list[float]:
     if len(mat)==0:
             return []
@@ -188,7 +189,7 @@ print(col_sums([[1, 2], [3]]))
 
 ### 3 номер
 
-```
+```python
 def format_record(rec: tuple[str, str, float]) -> str:
     if len(rec)!=3:
         return ValueError
@@ -220,3 +221,82 @@ print(format_record(("  сидорова  анна   сергеевна ", "ABB-
 ```
 
 ![3_tuples.py](/images/lab02/Снимок%20экрана%202025-09-30%20233046.png)
+
+
+
+### Лабораторная работа № 3
+### A номер 1
+
+```python
+def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
+    if casefold==True:
+        text=text.casefold()
+    if yo2e==True:
+        text=text.replace('ё', 'e')
+    text=text.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
+    while '  ' in text:
+        text=text.replace('  ', ' ')
+    text=text.strip()
+    return text
+print(normalize("ПрИвЕт\nМИр\t"))
+print(normalize("ёжик, Ёлка"))
+print(normalize("Hello\r\nWorld"))
+print(normalize("  двойные   пробелы  "))
+```
+
+![normalize](/images/lab03/Снимок%20экрана%202025-10-08%20225646.png)
+
+### A номер 2
+
+```python
+def tokenize(text: str) -> list[str]:
+    text_new=[]
+    for i in range(len(text)):
+        if text[i] == '-':
+            if i > 0 and i < len(text) - 1:
+                if (text[i-1].isalnum() or text[i-1] == '_') and (text[i+1].isalnum() or text[i+1] == '_'): 
+                    text_new.append('_')
+        else:
+            text_new.append(text[i])
+    text_new = ''.join(text_new)+' '
+    word=''
+    result=[]
+    for x in text_new:
+        if x.isalnum() or x=='_':
+            word+=x
+        else:
+            if len(word)!=0:
+                word=word.replace('_', '-')
+                result.append(word)
+                word=''
+    return result
+print(tokenize("привет мир"))
+print(tokenize("hello,world!!!"))
+print(tokenize("по-настоящему круто"))
+print(tokenize("2025 год"))
+print(tokenize("emoji 😀 не слово"))
+```
+
+![tokenize](/images/lab03/Снимок%20экрана%202025-10-08%20225427.png)
+
+### A номер 3
+
+```python
+def count_freq(tokens: list[str]) -> dict[str, int]:
+    result={}
+    for i in tokens:
+        result[i]=result.get(i, 0)+1
+    sorted_dict={}
+    s=sorted(result.keys())
+    for key in s:
+        sorted_dict[key]=result[key]
+    return sorted_dict
+print(count_freq(["a","b","a","c","b","a"]))
+print(count_freq(["привет", "мир", "привет"]))
+```
+
+![count](/images/lab03/Снимок%20экрана%202025-10-08%20225818.png)
+
+### A номер 4
+
+```python
