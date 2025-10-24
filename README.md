@@ -229,14 +229,17 @@ print(format_record(("  сидорова  анна   сергеевна ", "ABB-
 
 ```python
 def normalize(text: str, *, casefold: bool = True, yo2e: bool = True) -> str:
-    if casefold==True:
+# text - обязательный параметр (строка для обработки)
+# casefold, yo2e - опциональные параметры
+# -> str - функция возвращает строку
+    if casefold==True:  # проверяем надо ли приводить к нижнему регистру
         text=text.casefold()
-    if yo2e==True:
+    if yo2e==True:  # проверяем надо ли заменять букву 'ё' на 'е'
         text=text.replace('ё', 'e')
     text=text.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
     while '  ' in text:
-        text=text.replace('  ', ' ')
-    text=text.strip()
+        text=text.replace('  ', ' ') #удаляем двойные пробелы
+    text=text.strip() # удаляем пробелов в начале и конце
     return text
 print(normalize("ПрИвЕт\nМИр\t"))
 print(normalize("ёжик, Ёлка"))
@@ -250,17 +253,17 @@ print(normalize("  двойные   пробелы  "))
 
 ```python
 def tokenize(text: str) -> list[str]:
-    text_new=[]
+    text_new=[]  # пустой список для хранения обработанных символов, работаем только с дефисами
     for i in range(len(text)):
         if text[i] == '-':
-            if i > 0 and i < len(text) - 1:
-                if (text[i-1].isalnum() or text[i-1] == '_') and (text[i+1].isalnum() or text[i+1] == '_'): 
-                    text_new.append('_')
+            if i > 0 and i < len(text) - 1:  # дефис не находится в начале или конце строки
+                if (text[i-1].isalnum() or text[i-1] == '_') and (text[i+1].isalnum() or text[i+1] == '_'):  # символы слева и справа от дефиса-буквы/цифры или подчеркивания
+                    text_new.append('_') # временная замена дефиса
         else:
             text_new.append(text[i])
-    text_new = ''.join(text_new)+' '
-    word=''
-    result=[]
+    text_new = ''.join(text_new)+' ' # преобразуем спиосок символов в строку и пробел, без него слово не добавится в результат
+    word=''  # накопление текущего слова
+    result=[] # хранение готовых слов
     for x in text_new:
         if x.isalnum() or x=='_':
             word+=x
@@ -283,13 +286,13 @@ print(tokenize("emoji 😀 не слово"))
 
 ```python
 def count_freq(tokens: list[str]) -> dict[str, int]:
-    result={}
+    result={}  # пустой словарь, где хранится слова и их количество
     for i in tokens:
-        result[i]=result.get(i, 0)+1
-    sorted_dict={}
-    s=sorted(result.keys())
+        result[i]=result.get(i, 0)+1 # ищет слово i в словаре result, если есть-возвращает количество, если нет-возвращает 0
+    sorted_dict={}  # новый пустой словарь для отсортированных значений
+    s=sorted(result.keys())  # cортируем все ключи из словаря по алфавиту
     for key in s:
-        sorted_dict[key]=result[key]
+        sorted_dict[key]=result[key] # сохраняем значение из исходного словаря в новый, под тем же ключом
     return sorted_dict
 print(count_freq(["a","b","a","c","b","a"]))
 print(count_freq(["привет", "мир", "привет"]))
@@ -301,12 +304,42 @@ print(count_freq(["привет", "мир", "привет"]))
 
 ```python
 def top_n(freq: dict[str, int], n: int = 5) -> list[tuple[str, int]]:
-    spisoc=list(freq.items()) 
-    sorted_spisoc=sorted(spisoc, key=lambda x: x[1], reverse=True)
-    return sorted_spisoc[:n]
+    spisoc=list(freq.items())  # преобразуем словарь в список кортежей (пар)
+    sorted_letters=sorted(spisoc, key=lambda x: x[0]) # cортируем по алфавиту (по слову)
+    sorted_counts=sorted(sorted_letters, key=lambda x: x[1], reverse=True) # cортируем список по количеству
+    # при равенстве количеств сохраняется порядок из предыдущей сортировки (по алфавиту)
+    sorted_counts_new=sorted_counts[:n]
+    return sorted_counts_new
 print(top_n({"bb": 2, "aa": 2, "cc": 1}))
 print(top_n({"bb": 2, "aa": 2, "cc": 1}, n=2))
 ```
 
 ![count](/images/lab03/Снимок%20экрана%202025-10-09%20000330.png)
+
+### A номер 4
+
+```python
+### B номер 
+import sys
+from lib.text import normalize, tokenize, count_freq, top_n
+
+def text_statistics():
+    text_vvod=sys.stdin  # получаем объект для чтения ввода с клавиатуры
+    text=text_vvod.read()  # читаем весь текст, который ввели до нажатия Ctrl+D
+    if text=='':
+        print('нет введенного текста')
+        return
+    normalize_text=normalize(text)
+    tokenize_text=tokenize(normalize_text)
+    count_freq_text=count_freq(tokenize_text)
+    top_n_text=top_n(count_freq_text,5)
+    print(f'Всего слов: {len(tokenize_text)}')
+    print(f'Уникальных слов: {len(set(tokenize_text))}')
+    print("Топ-5:")  # заголовок для списка самых частых слов
+    for word, count in top_n_text:
+        print(f"{word}:{count}")
+if __name__ == "__main__":  # проверяем, запущен ли файл как основная программа
+    text_statistics()
+```
+![text_statistics](/images/lab03/Снимок%20экрана%202025-10-24%20110912.png)
 
