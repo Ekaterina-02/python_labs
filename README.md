@@ -373,7 +373,7 @@ def read_text(path: str | Path, encoding: str="utf-8") -> str:
     return p.read_text(encoding=encoding)  # Читаем и возвращаем файл в указанной кодировке
 ```
 
-![read_text]()
+![read_text](/images/lab04/Снимок%20экрана%202025-10-28%20112013.png)
 
 ### номер A.2
 
@@ -408,7 +408,7 @@ header - заголовок таблицы (кортеж строк или None,
         for row in rows:
             w.writerow(row)   # Записываем текущую строку в CSV файл ничего не возвращая
 ```
-![write_csv]()
+![write_csv](/images/lab04/Снимок%20экрана%202025-10-28%20112306.png)
 
 ### номер B
 
@@ -417,13 +417,17 @@ import sys
 all_paths=sys.path  # Получаем список всех путей
 all_paths.append('C:/Users/user/Desktop/python_labs/src')
 from lib.text import normalize, tokenize, count_freq, top_n
-from lib.io_txt_csv import read_text, write_csv, write_text
+from lib.io_txt_csv import read_text, write_csv
 
 # read_text - функция для чтения текстовых файлов
 # write_csv - функция для записи данных в CSV файлы
-# write_text - функция для записи текстовых файлов
 
-raw_text=read_text('data/lab04/input.txt')
+try:
+    raw_text = read_text('data/lab04/input.txt') # Пытаемся прочитать файл 'data/lab04/input.txt'
+except FileNotFoundError as e: # Если файл не найден, то инфа об ошибке пишется в e
+    print(f"Ошибка: {e}")  # в f-строке - детали ошибки из переменной 'e'
+    sys.exit(1) # Завершаем программу с кодом ошибки 1
+
 raw_text=tokenize(normalize(raw_text))
 word=count_freq(raw_text)
 text_counts=top_n(word)
@@ -439,4 +443,5 @@ write_csv(text_counts, 'data/lab04/report.csv', ("word","count"))
 # 'data/lab04/report.csv' - путь к файлу
 # ("word","count") - заголовок таблицы
 ```
-![write_csv_B]()
+![write_csv_B](/images/lab04/Снимок%20экрана%202025-10-28%20115302.png)
+![write_csv_B](/images/lab04/Снимок%20экрана%202025-10-28%20230342.png)
