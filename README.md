@@ -448,7 +448,7 @@ write_csv(text_counts, 'data/lab04/report.csv', ("word","count"))
 
 
 
-### Лабораторная работа № 4
+### Лабораторная работа № 5
 ### номер 1
 
 ```python
@@ -492,12 +492,8 @@ def json_to_csv(json_path: str | Path, csv_path: str | Path, encoding: str = "ut
         writer.writerows(data_json)
         # Записываем все данные из JSON в CSV
         # writerows() принимает список словарей и записывает каждый как строку CSV
-```
-[JSON → CSV]()
 
-### номер 2
 
-```python
 from pathlib import Path
 import json
 import csv
@@ -531,10 +527,16 @@ def csv_to_json(csv_path: str | Path, json_path: str | Path, encoding: str = "ut
         # Записываем данные из списка в JSON файл
         # Преобразуем Python объекты в JSON формат и записываем в файл
         # indent=2 - добавляет отступы для читаемого форматирования
-```
-[CSV → JSON]()
 
-### номер 3
+json_to_csv("data/samples/people.json", "data/out/people_from_json.csv")
+csv_to_json("data/samples/people.csv", "data/out/people_from_csv.json")
+```
+[CSV_JSON/JSON_CSV](/images/lab05/Снимок%20экрана%202025-11-04%20212232.png)
+[CSV_JSON/JSON_CSV](/images/lab05/Снимок%20экрана%202025-11-04%20212320.png)
+[CSV_JSON/JSON_CSV](/images/lab05/Снимок%20экрана%202025-11-04%20215939.png)
+[CSV_JSON/JSON_CSV](/images/lab05/Снимок%20экрана%202025-11-04%20215756.png)
+
+### номер 2
 
 ```python
 from pathlib import Path
@@ -571,5 +573,8 @@ def csv_to_xlsx(csv_path: str | Path, xlsx_path: str | Path, encoding: str = "ut
 
     xlsx_path = Path(xlsx_path) # Преобразуем выходной путь Excel в объект Path
     wb.save(xlsx_path) # Сохраняем созданную книгу, все данные, которые мы добавили, записываются в файл
+    
+csv_to_xlsx("data\\samples\\people.csv","data\\out\\people.xlsx")
 ```
-[CSV→XLSX]()
+[CSV_XLSX](/images/lab05/Снимок%20экрана%202025-11-04%20212140.png)
+[CSV_XLSX](/images/lab05/Снимок%20экрана%202025-11-04%20220758.png)

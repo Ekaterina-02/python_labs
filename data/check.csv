@@ -1,2 +1,4 @@
-word,count
-test,3
+person_name,city_name,is_city_valid,population_check
+Alice,SPB,false,failed
+Bob,,false,failed
+Alice,Moscow,true,passed
