@@ -531,10 +531,10 @@ def csv_to_json(csv_path: str | Path, json_path: str | Path, encoding: str = "ut
 json_to_csv("data/samples/people.json", "data/out/people_from_json.csv")
 csv_to_json("data/samples/people.csv", "data/out/people_from_csv.json")
 ```
-[csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20212232.png)
-[csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20212320.png)
-[csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20215939.png)
-[csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20215756.png)
+![csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20212232.png)
+![csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20212320.png)
+![csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20215939.png)
+![csv_gson](/images/lab05/Снимок%20экрана%202025-11-04%20215756.png)
 
 ### номер 2
 
@@ -576,5 +576,5 @@ def csv_to_xlsx(csv_path: str | Path, xlsx_path: str | Path, encoding: str = "ut
     
 csv_to_xlsx("data\\samples\\people.csv","data\\out\\people.xlsx")
 ```
-[csv_xlx](/images/lab05/Снимок%20экрана%202025-11-04%20212140.png)
-[csv_xlx](/images/lab05/Снимок%20экрана%202025-11-04%20220758.png)
+![csv_xlx](/images/lab05/Снимок%20экрана%202025-11-04%20212140.png)
+![csv_xlx](/images/lab05/Снимок%20экрана%202025-11-04%20220758.png)
