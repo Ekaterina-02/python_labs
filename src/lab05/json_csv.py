@@ -68,7 +68,7 @@ def csv_to_json(csv_path: str | Path, json_path: str | Path, encoding: str = "ut
 
     json_path = Path(json_path)   # Преобразуем выходной путь JSON в объект Path
     with json_path.open("w", encoding='utf-8') as json_file:
-        json.dump(data_csv, json_file, indent=2)
+        json.dump(data_csv, json_file, ensure_ascii=False, indent=2)
         # Записываем данные из списка в JSON файл
         # Преобразуем Python объекты в JSON формат и записываем в файл
         # indent=2 - добавляет отступы для читаемого форматирования
