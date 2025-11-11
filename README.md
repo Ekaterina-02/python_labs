@@ -674,3 +674,4 @@ if __name__ == "__main__":  # Точка входа в программу - ко
 ![argparse](/images/lab06/Лаба_6_3.1.png)
 ![argparse](/images/lab06/Лаба_6_3.2.png)
 ![argparse](/images/lab06/Лаба_6_3.3.png)
+![argparse](/images/lab06/Лаб_6_таблица.png)
