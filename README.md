@@ -675,3 +675,120 @@ if __name__ == "__main__":  # Точка входа в программу - ко
 ![argparse](/images/lab06/Лаба_6_3.2.png)
 ![argparse](/images/lab06/Лаба_6_3.3.png)
 ![argparse](/images/lab06/Лаб_6_таблица.png)
+
+
+
+### Лабораторная работа № 7
+### номер A
+
+```python
+import pytest
+from lib.text import count_freq, normalize, tokenize, top_n
+# Параметризованный тест для normalize(), позволяет запустить один тест много раз с разными данными
+@pytest.mark.parametrize(
+    "src,expected",
+    [
+        ("ПрИвЕт\nМИр\t", "привет мир"),
+        ("ёжик, Ёлка", "ежик, елка"),
+        ("Hello\r\nWorld", "hello world"),
+        ("  двойные   пробелы  ", "двойные пробелы"),
+    ],
+)
+def test_normalize(src, expected):  # параметры src и expected из параметризаци
+    assert normalize(src) == expected
+
+# Параметризованный тест для функции tokenize()
+@pytest.mark.parametrize(
+    "src,expected",
+    [
+        ("привет мир", ["привет", "мир"]),
+        ("hello,world!!!", ["hello", "world"]),
+        ("по-настоящему круто", ["по-настоящему", "круто"]),
+        ("2025 год", ["2025", "год"]),
+        ("emoji 😀 не слово", ["emoji", "не", "слово"]),
+    ],
+)
+
+def test_tokenize(src, expected):  # Тестовая функция для проверки tokenize()
+    assert tokenize(src) == expected
+    
+def test_count_and_top():  # Тест для проверки count_freq() и top_n()
+    tokens = ["a","b","a","c","b","a"]
+    freq = count_freq(tokens)  # подсчета частот каждого элемента
+    assert freq == {"a":3, "b":2, "c":1}  # Проверяем что правильно посчитало частоты
+    assert top_n(freq, 2) == [("a",3), ("b",2)]  # Проверяем что возвращает 2 самых частых элемента
+
+def test_top_tie_breaker():
+    freq = count_freq(["bb","aa","bb","aa","cc"])
+    assert top_n(freq, 2) == [("aa",2), ("bb",2)]
+
+def test_dop(): # Проверяет как обрабатывают пустые входные данные
+    assert normalize("") == ""
+    assert tokenize("") == []
+    assert count_freq([]) == {}
+    assert top_n({}, 5) == []
+
+def test_top_dop():  # Тест когда запрашиваем больше элементов чем есть
+    freq = {"a": 3, "b": 2}
+    assert top_n(freq, 5) == [("a", 3), ("b", 2)]
+```
+
+### номер B
+
+```python
+import csv
+import json
+from pathlib import Path
+import pytest
+from src.lib.json_csv import csv_to_json, json_to_csv
+
+def write_json(path: Path, obj):  # Функция для записи JSON файла
+    path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def read_csv_rows(path: Path): # Функция для чтения CSV файла
+    with path.open(encoding="utf-8") as f:
+        return list(csv.DictReader(f)) # читает CSV и преобразует каждую строку в список словарей
+
+def test_json_to_csv_roundtrip(tmp_path: Path):
+    src = tmp_path / "people.json"   # Создаем путь к исходному файлу во временной папке
+    dst = tmp_path / "people.csv"  # Создаем путь к целевому файлу во временной папке
+    data = [{"name": "Alice", "age": 22}, {"name": "Bob", "age": 25}] # Вводим тестовые данные
+    write_json(src, data)   # Записываем тестовые данные в JSON файл
+
+    json_to_csv(str(src), str(dst))
+    rows = read_csv_rows(dst) # Читаем результат CSV файла
+    assert len(rows) == 2
+    assert set(rows[0]) >= {"name", "age"} # В первой строке должны быть хотя бы колонки "name" и "age" (может быть больше)
+
+def test_csv_to_json_roundtrip(tmp_path: Path):
+    src = tmp_path / "people.csv"
+    dst = tmp_path / "people.json"
+    src.write_text("name,age\nAlice,22\nBob,25\n", encoding="utf-8") # Создаем CSV файл с заголовком и двумя строками
+
+    csv_to_json(str(src), str(dst))
+    obj = json.loads(dst.read_text(encoding="utf-8"))
+    assert isinstance(obj, list) and len(obj) == 2 # должен быть списком и содержать 2 элемента
+    assert set(obj[0]) == {"name", "age"} # В первом элементе должны быть олько ключи "name" и "age"(не должно быть лишних)
+
+
+def test_json_to_csv_empty_raises(tmp_path: Path):  # Проверка обработки пустого JSON файла
+    src = tmp_path / "empty.json"
+    src.write_text("[]", encoding="utf-8")
+    with pytest.raises(ValueError):
+        json_to_csv(str(src), str(tmp_path / "out.csv"))
+
+
+def test_csv_to_json_no_header_raises(tmp_path: Path):  # Проверка обработки CSV файла без заголовка
+    src = tmp_path / "bad.csv"
+    src.write_text("", encoding="utf-8")
+    with pytest.raises(ValueError):
+        csv_to_json(str(src), str(tmp_path / "out.json"))
+
+
+def test_missing_file_raises():  # Тест 5: Проверка обработки несуществующего файла
+    with pytest.raises(FileNotFoundError):
+        csv_to_json("nope.csv", "out.json")
+```
+![pytest](/images/lab07/Лаба_7_1.png)
+![pytest](/images/lab07/Лаба_7_2.png)
+![pytest](/images/lab07/Лаба_7_3.png)

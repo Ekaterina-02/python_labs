@@ -1,12 +1,14 @@
 def unique_sorted(nums: list[float | int]) -> list[float | int]:
-    result=[]
-    m=-10*10
-    nums=sorted(nums)
+    result = []
+    m = -10 * 10
+    nums = sorted(nums)
     for i in nums:
-        if i>m:
+        if i > m:
             result.append(i)
-            m=i
+            m = i
     return result
+
+
 print(unique_sorted([3, 1, 2, 1, 3]))
 print(unique_sorted([]))
 print(unique_sorted([-1, -1, 0, 2, 2]))
